@@ -14,7 +14,7 @@ export interface Todo {
   imports: [CommonModule, FormsModule],
   template: `
     <div class="todo-container">
-      <h1>📝 Todo List</h1>
+      <h1> To-do List </h1>
       
       <div class="add-todo">
         <input 
@@ -24,7 +24,12 @@ export interface Todo {
           placeholder="Enter a new task..."
           class="todo-input"
         />
-        <button (click)="addTodo()" class="add-btn">Add</button>
+        <button (click)="addTodo()" class="add-icon-btn" aria-label="Add todo">
+          <img 
+            src="https://img.icons8.com/?size=100&id=40097&format=png&color=000000" 
+            alt="Add"
+          />
+        </button>
       </div>
 
       <div class="todo-list">
@@ -37,7 +42,12 @@ export interface Todo {
           <span [class.completed]="todo.completed" class="todo-title">
             {{ todo.title }}
           </span>
-          <button (click)="deleteTodo(todo.id)" class="delete-btn">🗑️</button>
+          <button (click)="deleteTodo(todo.id)" class="delete-icon-btn" aria-label="Delete todo">
+            <img 
+              src="https://img.icons8.com/?size=100&id=nerFBdXcYDve&format=png&color=000000" 
+              alt="Delete"
+            />
+          </button>
         </div>
       </div>
 
@@ -49,7 +59,7 @@ export interface Todo {
       </div>
       
       <div class="empty-state" *ngIf="todos.length === 0">
-        <p>🎉 No tasks! Add one above to get started.</p>
+        <p> No tasks! Add one above to get started.</p>
       </div>
     </div>
   `,
@@ -81,27 +91,41 @@ export interface Todo {
       border-radius: 5px;
       outline: none;
     }
+      
     .todo-input:focus {
       border-color: #4CAF50;
     }
-    .add-btn {
-      padding: 12px 24px;
-      background-color: #4CAF50;
-      color: white;
+
+    .add-icon-btn {
+      background: none;
       border: none;
-      border-radius: 5px;
+      padding: 0;
       cursor: pointer;
-      font-size: 16px;
-      transition: background-color 0.3s;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
-    .add-btn:hover {
-      background-color: #45a049;
+
+    .add-icon-btn img {
+      width: 32px;
+      height: 32px;
     }
+
+    .add-icon-btn:hover img {
+      transform: scale(1.1);
+    }
+
+    .add-icon-btn img {
+      transition: transform 0.2s;
+    }
+
     .todo-list {
       margin-bottom: 20px;
       max-height: 400px;
       overflow-y: auto;
     }
+
     .todo-item {
       display: flex;
       align-items: center;
@@ -112,36 +136,49 @@ export interface Todo {
       gap: 10px;
       transition: background-color 0.2s;
     }
+
     .todo-item:hover {
       background-color: #f0f0f0;
     }
+
     .todo-checkbox {
       width: 20px;
       height: 20px;
       cursor: pointer;
     }
+
     .todo-title {
       flex: 1;
       font-size: 16px;
       word-break: break-word;
     }
+
     .todo-title.completed {
       text-decoration: line-through;
       color: #888;
     }
-    .delete-btn {
-      padding: 5px 10px;
-      background-color: #ff4444;
-      color: white;
-      border: none;
-      border-radius: 3px;
-      cursor: pointer;
-      font-size: 14px;
-      transition: background-color 0.3s;
-    }
-    .delete-btn:hover {
-      background-color: #cc0000;
-    }
+
+    .delete-icon-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.delete-icon-btn img {
+  width: 28px;
+  height: 28px;
+  transition: transform 0.2s;
+}
+
+.delete-icon-btn:hover img {
+  transform: scale(1.1);
+}
+
     .stats {
       text-align: center;
       padding: 12px;
