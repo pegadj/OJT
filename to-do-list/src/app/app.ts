@@ -28,11 +28,6 @@ type FilterType = 'All' | 'Completed' | 'Uncompleted';
         <!-- Task List -->
         <div class="task-list">
           <div class="task-card" *ngFor="let task of filteredTasks()">
-            <div class="accent-bar"
-              [class.high]="task.priority === 'High Priority'"
-              [class.medium]="task.priority === 'Medium Priority'"
-              [class.low]="task.priority === 'Low Priority'">
-            </div>
             <button class="check-btn" (click)="toggleTask(task.id)" [class.checked]="task.completed">
               <svg *ngIf="task.completed" width="10" height="10" viewBox="0 0 10 10" fill="none">
                 <path d="M1.5 5l2.5 2.5 4.5-4.5" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
@@ -40,7 +35,6 @@ type FilterType = 'All' | 'Completed' | 'Uncompleted';
             </button>
             <div class="task-info">
               <span class="task-title" [class.done]="task.completed">{{ task.title }}</span>
-              <span class="task-sub">{{ task.priority }}</span>
             </div>
             <button class="remove-btn" (click)="removeTask(task.id)">&#x2715;</button>
           </div>
@@ -72,14 +66,6 @@ type FilterType = 'All' | 'Completed' | 'Uncompleted';
               (input)="updateNewTaskTitle($any($event.target).value)"
             />
           </div>
-          <div class="form-group">
-            <label class="form-label">Priority</label>
-            <select class="form-select" [value]="newTaskPriority()" (change)="updateNewTaskPriority($any($event.target).value)">
-              <option>High Priority</option>
-              <option>Medium Priority</option>
-              <option>Low Priority</option>
-            </select>
-          </div>
           <div class="modal-actions">
             <button class="cancel-btn" (click)="closeModal()">Cancel</button>
             <button class="confirm-btn" (click)="createTask()">Add Task</button>
@@ -94,7 +80,7 @@ type FilterType = 'All' | 'Completed' | 'Uncompleted';
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :host {
-      --bg: #f0f0f0;
+      --bg: #d6d6d6;
       --card: #E8F5E9;
       --green: #2E7D32;
       --green-mid: #388E3C;
@@ -119,10 +105,9 @@ type FilterType = 'All' | 'Completed' | 'Uncompleted';
       justify-content: center;
       min-height: 100vh;
       background: var(--bg);
-      padding: 32px 16px;
     }
 
-    /* ── Card: fits content width ── */
+    /* ── Card ── */
     .phone-card {
       display: inline-flex;
       flex-direction: column;
@@ -166,7 +151,7 @@ type FilterType = 'All' | 'Completed' | 'Uncompleted';
     .task-card {
       background: #ffffff;
       border-radius: 12px;
-      padding: 12px 12px 12px 0;
+      padding: 12px 12px 12px 14px;
       display: flex;
       align-items: center;
       gap: 10px;
@@ -335,12 +320,7 @@ export class App {
   newTaskTitle = signal('');
   newTaskPriority = signal<Task['priority']>('Medium Priority');
 
-  tasks = signal<Task[]>([
-    { id: 1, title: 'Add More Content on Dribbble Profile', priority: 'High Priority', completed: false },
-    { id: 2, title: 'Make this UI for Free :)', priority: 'High Priority', completed: true },
-    { id: 3, title: 'Create UI Element', priority: 'Medium Priority', completed: false },
-    { id: 4, title: 'Do this UI modern & simple', priority: 'Medium Priority', completed: true },
-  ]);
+  tasks = signal<Task[]>([]);
 
   filteredTasks = computed(() => {
     const filter = this.activeFilter();
